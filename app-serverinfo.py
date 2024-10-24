@@ -12,7 +12,7 @@ awsauth = AWS4Auth(credentials.access_key, credentials.secret_key,
                    region, service, session_token=credentials.token)
 
 # OpenSearch 연결 설정
-host = 'o0hj5d4vh1k6bxab969l.us-west-2.aoss.amazonaws.com'  # 예: 'https://xxx.us-west-2.aoss.amazonaws.com'
+host = 'o0hj5d4vh1k6bxab969l.us-west-2.aoss.amazonaws.com'  
 port = 443
 
 # OpenSearch 클라이언트 생성

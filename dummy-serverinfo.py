@@ -17,7 +17,8 @@ awsauth = AWS4Auth(credentials.access_key, credentials.secret_key,
                    region, service, session_token=credentials.token)
 
 # OpenSearch Serverless 연결 설정
-host = 'o0hj5d4vh1k6bxab969l.us-west-2.aoss.amazonaws.com'
+host = 'o0hj5d4vh1k6bxab969l.us-west-2.aoss.amazonaws.com' # vector
+
 port = 443
 
 # OpenSearch 클라이언트 생성
@@ -53,6 +54,7 @@ def create_index_if_not_exists():
                 "last_updated": {"type": "date"},
                 "registration_date": {"type": "date"},
                 "server_status": {"type": "text"},
+                "full_text":{"type": "text"},
                 "vector_embedding": {
                     "type": "knn_vector",
                     "dimension": 1024,
@@ -170,7 +172,9 @@ def generate_server_info():
 def index_dummy_data(num_records):
     for _ in range(num_records):
         server_info = generate_server_info()
+        full_text = json.dumps(server_info)
         embed_info = generate_embedding(server_info)
+        server_info.update({"full_text": full_text})
         server_info.update({"vector_embedding": embed_info})
         
         response = client.index(
@@ -186,6 +190,6 @@ if __name__ == "__main__":
     
     wait_for_index_creation (index_name)
     
-    num_records = 100  # 생성할 레코드 수
+    num_records = 500  # 생성할 레코드 수
     index_dummy_data(num_records)
     print(f"{num_records} dummy records have been indexed to OpenSearch Serverless.")
