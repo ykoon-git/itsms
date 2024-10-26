@@ -67,7 +67,7 @@ def generate_opensearch_query(natural_language_query):
     messages = [
         {
             "role": "user",
-            "content": f"Given the following schema information:\n\n{schema_info}\n\nGenerate an OpenSearch query in JSON format for the following natural language query. The query should use the appropriate fields and query types based on the schema. Don't use wildcard operation and ignore case-sensitive. Natural language query: {natural_language_query}"
+            "content": f"Given the following schema information:\n\n{schema_info}\n\nGenerate an OpenSearch query in JSON format for the following natural language query. The query should use the appropriate fields and query types based on the schema. Natural language query: {natural_language_query}"
         }
     ]
 
@@ -117,7 +117,7 @@ def search_opensearch(query, index_name):
         return []
 
 # Streamlit 앱
-st.title("[Chatbot] 서버 인프라 검색")
+st.title("Server Info Chatbot")
 
 st.sidebar.header("Settings")
 indices = get_opensearch_indices(opensearch_client)
@@ -125,7 +125,7 @@ indices = get_opensearch_indices(opensearch_client)
 selected_index = st.sidebar.selectbox(
     "사용할 Index를 선택하세요.",
     options=indices,
-    index=2  # 기본값으로 첫 번째 인덱스 선택
+    index=0  # 기본값으로 첫 번째 인덱스 선택
 )
 
 # 사용자 입력

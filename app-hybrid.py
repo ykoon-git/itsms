@@ -175,6 +175,9 @@ if search_query:
         
         # 필터 적용
         if applyfilter:
+            if "filter" not in search_body["query"]["bool"]:
+                search_body["query"]["bool"]["filter"] = []
+                
             if os_filter:
                 search_body["query"]["bool"]["filter"].append({"terms": {"os": os_filter}})
             if status_filter:
@@ -193,6 +196,7 @@ if search_query:
                 search_body["query"]["bool"]["filter"].append({
                     "range": {"memory": {"gte": memory_range[0], "lte": memory_range[1]}}
                 })
+
         
         # 검색 실행
         results = opensearch_client.search(
@@ -236,7 +240,8 @@ if search_query:
                         st.write(f"🔹 상태: {hit['_source']['server_status']}")
                         st.write(f"🔹 위치: {hit['_source']['location']}")
                         st.write(f"🔹 부서: {hit['_source']['department']}")
-                    
+                        st.write(f"🔹 회사: {hit['_source']['service_name']}")
+                        
                     with col2:
                         st.markdown("**💻 리소스 정보**")
                         st.write(f"🔹 CPU: {hit['_source']['cpu']} cores")
@@ -258,23 +263,3 @@ if search_query:
             
     except Exception as e:
         st.error(f"검색 중 오류가 발생했습니다: {str(e)}")
-
-# 사용 가이드
-with st.sidebar.expander("💡 사용 가이드"):
-    st.markdown("""
-    1. **검색어 입력**
-        - 자연어로 검색 가능
-        - 구체적인 키워드 사용 가능
-    
-    2. **필터 사용**
-        - OS 선택
-        - 서버 상태 선택
-        - CPU/메모리 범위 지정
-    
-    3. **검색 가중치 조정**
-        - 키워드 검색과 의미 기반 검색의 비중 조절 가능
-    
-    4. **결과 확인**
-        - 통계 차트로 전체 현황 파악
-        - 상세 정보는 확장 패널에서 확인
-    """)

@@ -16,8 +16,6 @@ host = 'o0hj5d4vh1k6bxab969l.us-west-2.aoss.amazonaws.com'  # 실제 엔드포�
 index_name = 'itsmindex'
 
 
-
-
 # OpenSearch 클라이언트 설정
 client = OpenSearch(
     hosts = [{'host': host, 'port': 443}],

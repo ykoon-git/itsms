@@ -48,22 +48,21 @@ def get_athena_agent():
     return athena_agent_executor
 
 # Streamlit 앱 설정
-st.title("Athena Database Chatbot")
+st.title("Athena DataLake(Server Info) Chatbot")
 
 # 사이드바에 사용 설명 추가
 st.sidebar.header("How to use")
-st.sidebar.write("1. Type your question in the text input below.")
-st.sidebar.write("2. The chatbot will convert your question to an SQL query.")
-st.sidebar.write("3. The query will be executed on the Athena database.")
-st.sidebar.write("4. The results will be displayed below.")
+st.sidebar.write("1. 아래의 텍스트박스에 질문을 입력합니다.(ex. windows 서버의 수량은?)")
+st.sidebar.write("2. Chatbot 이 Database 의 Schema 등을 확인하고 질문을 SQL query 로 변환합니다.")
+st.sidebar.write("3. 만들어진 쿼리를 Athena 쿼리 엔진을 통해 실행합니다.")
 
 # 사용자 입력 받기
-user_input = st.text_input("Ask a question about the database:", "")
+user_input = st.text_input("서버정보를 조회하기 위한 질문을 입력하세요:", "")
 
 if user_input:
     athena_agent_executor = get_athena_agent()
     
-    with st.spinner('Processing your question...'):
+    with st.spinner('질문을 처리중입니다 (처리중인 내용은 콘솔에서 확인할 수 있습니다)...'):
         # 질문을 전달하고 결과 받기
         response = athena_agent_executor.invoke(user_input)
         
@@ -78,4 +77,4 @@ if user_input:
 
 # 추가 정보 표시
 st.markdown("---")
-st.write("This chatbot uses Amazon Bedrock's Claude 3.5 Sonnet model to interpret your questions and generate SQL queries for the Athena database.")
+st.write("이 챗봇은 Amazon Bedrock의 Claude 3.5 Sonnet 모델을 사용하여 사용자의 질문을 해석하고 Athena 데이터베이스에 대한 SQL 쿼리를 생성합니다.")
