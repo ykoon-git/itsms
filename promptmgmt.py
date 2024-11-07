@@ -173,7 +173,7 @@ def main():
 
     st.title("🤖 Bedrock Prompt Management")
     
-    tabs = st.tabs(["프롬프트 생성", "프롬프트 실행"])
+    tabs = st.tabs(["프롬프트 생성", "프롬프트 세부정보 확인"])
     
     prompt_manager = BedrockPromptManager()
 
@@ -237,14 +237,14 @@ def main():
             else:
                 st.info("저장된 프롬프트가 없습니다.")
 
-    # 프롬프트 실행 탭
+    # 프롬프트 확인 탭
     with tabs[1]:
         st.subheader("프롬프트 확인")
         
         prompts = prompt_manager.list_prompts()
         if prompts:
             selected_prompt = st.selectbox(
-                "실행할 프롬프트 선택",
+                "프롬프트 선택",
                 options=[(p['id'], p['name']) for p in prompts],
                 format_func=lambda x: x[1],
                 key="prompt_selector"
